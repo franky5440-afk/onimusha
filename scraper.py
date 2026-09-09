@@ -460,6 +460,7 @@ GUIDE_BLOCK_DOMAIN_SUBSTR = (
     "nintendoworldreport.com", "lt3.tv", "analogstickgaming.com",
     "vocus.cc", "wikipedia.org",
     "g2a.com", "msn.com", "msn.cn",
+    "sohu.com",
 )
 
 GUIDE_OTHER_GAMES = (
