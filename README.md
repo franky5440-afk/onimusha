@@ -36,7 +36,7 @@ python3 -m venv venv
 
 ## Hero 主視覺
 
-- Live art = **C（slash）** → `static/hero-onimusha.webp`（1600×900）。
+- Live art = **C2b dual** → `static/hero-onimusha.webp`（1600×900；取代 C slash；dual-wield 修正不良雙端刀柄）。
 - Nelli **A／B 已否決**；**D 未採用**。
 - 布局：無 `.hero-halo`、標題／玻璃疊**右側暗區**、`.hero-img` 維持 `aspect-ratio: 16 / 9`、品牌色票不變。詳見 [NELLI_HERO.md](NELLI_HERO.md)。
 

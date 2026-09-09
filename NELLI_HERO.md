@@ -4,19 +4,20 @@
 
 | 項目 | 狀態 |
 |---|---|
-| `static/hero-onimusha.webp` | **Live = C（slash）** 1600×900；鬼面武士偏左、右側暗區放標題 |
+| `static/hero-onimusha.webp` | **Live = C2b dual** 1600×900；鬼面武士偏左、雙刀流、右側暗區放標題（取代 C slash） |
 | Nelli A（`hero-onimusha-a`） | **Frank 已否決** — 不得接進 `static/` |
 | Nelli B（`hero-onimusha-b`） | **Frank 已否決** — 不得接進 `static/` |
+| Nelli C（slash） | **已取代** — 由 C2b dual 定稿接站 |
 | Nelli D（maskcrop） | **未採用** |
-| 品牌色票 | **已套用**於 `static/style.css` `:root`（見 `docs/hero-redesign/brand-tokens.md`）— 接 C **不變** |
+| 品牌色票 | **已套用**於 `static/style.css` `:root`（見 `docs/hero-redesign/brand-tokens.md`）— 接 C2b **不變** |
 | `.hero-halo` | **已關閉**（`display: none`） |
 | 標題／玻璃 | **右側暗區**（`justify-items: end` + 右向墨黑 scrim／vignette） |
 
 ## 藝術方向（定稿）
 
 - **鬼面造型 OK**；墨黑／緋紅／暗金
-- 構圖為 **slash**（人物偏左、刀光、右側負空間）— 非 nioh3 置中白甲
-- A／B 已否決；D 未用
+- 構圖為 **C2b dual**（人物偏左、雙刀流、右側負空間）— 非 nioh3 置中白甲；**dual-wield 修正**不良雙端刀柄（double-ended hilt）
+- A／B 已否決；C slash 已由 C2b 取代；D 未用
 
 ## 路徑與尺寸硬約束
 
@@ -26,7 +27,7 @@
 | 建議尺寸 | **1600×900**（16:9） |
 | `.hero-img` `aspect-ratio` | **`16 / 9`**（換直式圖時必須同步改） |
 | CSS 三處 | `.hero-wall` / `.hero-img` / `.hero-detail i` 皆指向 `hero-onimusha.webp` |
-| `.hero-halo` | **關閉**（C 無金色圓盤） |
+| `.hero-halo` | **關閉**（C2b 無金色圓盤） |
 | `.hero-detail i` | `background-position` 約 `35% 15%/200%`（框住鬼面頭盔） |
 | 標題 mood | 襯線 `clamp(2.4rem, 5vw, 4.2rem)`；肅殺惡鬼劍戟 — 不要可愛／霓虹；疊右側暗區 |
 
