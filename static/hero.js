@@ -14,7 +14,6 @@
     { el: img, d: 18 },
     { el: document.getElementById("heroHalo"), d: 18 }, // 跟人物同步，日輪才不會脫節
     { el: document.getElementById("heroTitle"), d: -8 },
-    { el: document.querySelector(".hero-detail"), d: -22 },
   ].filter((l) => l.el);
 
   let tx = 0, ty = 0, cx = 0, cy = 0, scrollT = 0, t0 = 0;

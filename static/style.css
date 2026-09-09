@@ -399,23 +399,6 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
 .hero-cue svg { width: 15px; height: 15px; animation: heroNudge 2.2s ease-in-out infinite; }
 @keyframes heroNudge { 0%,100% { transform: translateY(0) } 50% { transform: translateY(3px) } }
 
-/* 右下角頭盔特寫卡 */
-.hero-detail {
-  position: absolute; z-index: 6;
-  right: clamp(20px, 4vw, 56px); bottom: clamp(200px, 27vh, 300px);
-  width: clamp(120px, 13vw, 186px); aspect-ratio: 4/5;
-  border-radius: 16px; overflow: hidden;
-  border: 1px solid rgba(255,255,255,.65);
-  box-shadow: 0 14px 40px rgba(90,72,55,.22);
-  opacity: 0; animation: heroFadeUp 1100ms var(--ease) 1450ms forwards;
-}
-.hero-detail i {
-  position: absolute; inset: 0; display: block;
-  background: url("hero-onimusha.webp") 35% 15%/200% no-repeat;
-  transition: transform 1.2s var(--ease);
-}
-.hero-detail:hover i { transform: scale(1.12); }
-
 @media (orientation: portrait) {
   /* 圖本身就是 3:4，直式螢幕直接鋪滿最好看，也就沒有接縫要處理 */
   .hero-img {
@@ -426,7 +409,6 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
   .hero-halo { top: 13%; width: 42vmin; }
 }
 @media (max-width: 640px) {
-  .hero-detail { display: none; }
   .hero-ui { padding-left: 14px; padding-right: 14px; }
 }
 
@@ -486,7 +468,7 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-img, .hero-detail, .hero-lede, .hero-cue { opacity: 1 !important; }
+  .hero-img, .hero-lede, .hero-cue { opacity: 1 !important; }
   .hero-wall { opacity: .6 !important; }
   .hero-img { transform: none !important; filter: none !important; }
   .hero-title .line > span { transform: none !important; }
