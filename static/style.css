@@ -277,9 +277,8 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
 .hero-wall {
   position: absolute; inset: -12%;
   background: url("hero-onimusha.webp") center/cover no-repeat;
-  /* 重點是「顏色要跟圖片邊緣的奶白對得上」，否則 contain 的切邊會現形。
-     所以這層不是拿來看內容的，是拿來當一片有紋理的奶霧。 */
-  filter: blur(58px) saturate(.55) brightness(.55) contrast(1.05);
+  /* 背景牆：墨黑／緋紅紋理模糊填邊，非內容層 */
+  filter: blur(58px) saturate(.7) brightness(.4) contrast(1.08);
   transform: scale(1.15); opacity: 0; will-change: transform;
   animation: heroWallFade 1700ms var(--ease) 100ms forwards;
 }
@@ -301,12 +300,10 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
 @keyframes heroWallFade { to { opacity: .6 } }
 @keyframes heroSharpen { to { filter: blur(0) saturate(1) } }
 
-/* 日輪光暈：呼吸 */
+/* 日輪光暈：Hero C 定稿關閉（slash 構圖無圓盤） */
 .hero-halo {
-  position: absolute; left: 50%; top: 28%; width: 22vmin; aspect-ratio: 1;
-  translate: -50% -50%; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(184,146,58,.75) 0%, rgba(184,146,58,.22) 38%, transparent 68%);
-  mix-blend-mode: screen; animation: heroBreathe 7s ease-in-out infinite;
+  display: none;
+  opacity: 0; pointer-events: none;
 }
 @keyframes heroBreathe { 0%,100% { opacity:.55; transform:scale(1) } 50% { opacity:1; transform:scale(1.09) } }
 
@@ -325,17 +322,22 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
   pointer-events: none; mix-blend-mode: screen;
 }
 
-/* 文字遮罩：讓深色襯線標題不必跟白色盔甲的紋理搶對比 */
+/* 文字遮罩：右側暗區加深，襯 slash 構圖（人物偏左、右側留白） */
 .hero-scrim {
   position: absolute; inset: 0; pointer-events: none; z-index: 2;
-  background: var(--scrim);
+  background:
+    linear-gradient(to right,
+      rgba(11,10,12,.12) 0%,
+      rgba(11,10,12,.22) 40%,
+      rgba(11,10,12,.62) 68%,
+      rgba(11,10,12,.82) 100%);
 }
 .hero-vignette {
   position: absolute; inset: 0; pointer-events: none; z-index: 2;
   background:
-    /* 外圈洗成象牙白 —— 蓋掉 contain 的切邊，也讓人物從背景浮出來 */
-    radial-gradient(74% 90% at 50% 46%, transparent 44%, rgba(239,231,221,.55) 74%, rgba(239,231,221,.96) 100%),
-    radial-gradient(120% 90% at 50% 40%, transparent 62%, rgba(80,64,50,.14) 100%);
+    /* 墨黑外暈 —— 取代舊稿象牙白 vignette（nioh3 白甲假設） */
+    radial-gradient(78% 92% at 38% 48%, transparent 42%, rgba(11,10,12,.45) 72%, rgba(11,10,12,.88) 100%),
+    linear-gradient(to right, transparent 30%, rgba(11,10,12,.28) 58%, rgba(11,10,12,.55) 100%);
 }
 /* 轉場：hero 底部化進內容區的深色，避免硬邊 */
 .hero-fade {
@@ -348,8 +350,9 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
   position: relative; z-index: 5; height: 100%;
   max-width: 1200px; margin: 0 auto; padding: 26px 20px clamp(140px, 20vh, 210px);
   display: grid; grid-template-rows: auto 1fr auto; gap: 20px;
+  justify-items: end; text-align: right;
 }
-.hero-top { display: flex; align-items: center; gap: 16px; }
+.hero-top { display: flex; align-items: center; gap: 16px; width: 100%; text-align: left; }
 .hero-wordmark {
   font-family: "Noto Serif TC", serif; font-weight: 600;
   font-size: 14px; letter-spacing: .3em;
@@ -365,18 +368,20 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
 
 /* 標題：逐行 mask reveal */
 .hero-title {
-  align-self: center; width: fit-content;
+  align-self: center; width: fit-content; margin-left: auto;
+  text-align: right;
   font-family: "Noto Serif TC", "Cormorant Garamond", serif; font-weight: 900;
   font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 1.06; letter-spacing: .06em;
 }
-.hero-title .line { display: block; overflow: hidden; padding-right: .12em; }
+.hero-title .line { display: block; overflow: hidden; padding-left: .12em; }
 .hero-title .line > span { display: block; transform: translateY(112%); animation: heroLineUp 1100ms var(--ease) forwards; }
 @keyframes heroLineUp { to { transform: translateY(0) } }
 .hero-dim { color: var(--crimson); font-weight: 600; font-size: .5em; letter-spacing: .16em; }
 
-.hero-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+.hero-foot { display: flex; align-items: flex-end; justify-content: flex-end; gap: 30px; flex-wrap: wrap; width: 100%; }
 .hero-lede {
-  max-width: 46ch; font-size: 12.5px; line-height: 1.9; color: #5C534C;
+  max-width: 46ch; font-size: 12.5px; line-height: 1.9; color: var(--text-dim);
+  text-align: right;
   opacity: 0; animation: heroFadeUp 1000ms var(--ease) 1350ms forwards;
 }
 @keyframes heroFadeUp { from { opacity:0; transform: translateY(26px) } to { opacity:1; transform:none } }
@@ -406,7 +411,7 @@ main { flex: 1; padding-top: 28px; padding-bottom: 48px; }
 }
 .hero-detail i {
   position: absolute; inset: 0; display: block;
-  background: url("hero-onimusha.webp") 50% 18%/220% no-repeat;
+  background: url("hero-onimusha.webp") 35% 15%/200% no-repeat;
   transition: transform 1.2s var(--ease);
 }
 .hero-detail:hover i { transform: scale(1.12); }
