@@ -38,7 +38,8 @@ python3 -m venv venv
 
 - 目前 `static/hero-onimusha.webp` 為**佔位圖**（品牌色票已套用）。
 - Nelli A／B 已被 Frank 否決，**未**接入站內。
-- 下一版方向：鬼面 OK、色調可近 A（墨黑／緋紅／暗金），但姿勢／構圖**不要像** nioh3；Nelli 重繪中。詳見 [NELLI_HERO.md](NELLI_HERO.md)。
+- 下一版方向：鬼面 OK、色調可近 A（墨黑／緋紅／暗金），但姿勢／構圖**不要像** nioh3。
+- **Nelli Hero v2** 待 Frank 選：C（slash，較偏好）／D（maskcrop）。選定前**維持佔位**；整合時無 `.hero-halo`、標題疊右側暗區、16:9、色票不變。詳見 [NELLI_HERO.md](NELLI_HERO.md)。
 
 ## 每日更新
 

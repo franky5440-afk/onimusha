@@ -12,7 +12,7 @@
 - 官方 X：`onimusha_capcom`（JP）、`OnimushaGame`（EN）
 - 官方站：https://www.capcom-games.com/onimusha/ws/
 - Pages：https://franky5440-afk.github.io/onimusha/
-- Hero：`static/hero-onimusha.webp`（目前為佔位；Nelli A/B 已否決；下一版鬼面 OK、色近 A、構圖勿像 nioh3 — 見 `NELLI_HERO.md`）
+- Hero：`static/hero-onimusha.webp`（目前為佔位；A/B 否決；v2 待選 C slash／D maskcrop — 見 `NELLI_HERO.md`）
 
 ## 語言
 

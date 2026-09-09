@@ -25,7 +25,7 @@
 | 建議尺寸 | **1600×900**（16:9） |
 | `.hero-img` `aspect-ratio` | **`16 / 9`**（換直式圖時必須同步改） |
 | CSS 三處 | `.hero-wall` / `.hero-img` / `.hero-detail i` 皆指向 `hero-onimusha.webp` |
-| `.hero-halo` | `top` 對準圖中金色圓盤 |
+| `.hero-halo` | 佔位／舊稿：對準金色圓盤；**v2 選定後不要用 halo** |
 | `.hero-detail i` | `background-position` 框住頭部 |
 | 標題 mood | 襯線 `clamp(2.4rem, 5vw, 4.2rem)`；肅殺惡鬼劍戟 — 不要可愛／霓虹 |
 
@@ -37,3 +37,19 @@
 4. 文件：本檔與 README 標明「目前為哪一版／佔位」
 
 產圖 prompt 見 `docs/hero-redesign/onimusha-hero-prompt.md`。
+
+## Nelli Hero v2（待 Frank 選）
+
+| 候選 | 備註 |
+|---|---|
+| **C**（slash） | Frank **較偏好** |
+| **D**（maskcrop） | 備選 |
+
+**現在仍用佔位圖**，不要把 C／D 接到 `static/hero-onimusha.webp`。
+
+等 Frank 選定後再整合時：
+
+- **不要**使用 `.hero-halo`（可藏或拿掉）
+- 標題疊在**右側暗區**
+- `aspect-ratio` 維持 **16 / 9**
+- 品牌色票（`:root` tokens）**不變**
