@@ -412,11 +412,156 @@ GUIDE_QUERIES = {
 
 QUERY_REGIONS = {"zh": "tw-zh", "en": "us-en", "ja": "jp-jp"}
 
+# 攻略相關性：遊戲名（勿單靠「一閃」）+ 攻略意圖 + 封鎖垃圾站
+GUIDE_GAME_TERMS = (
+    "鬼武者",
+    "onimusha",
+    "劍之道",
+    "剑之道",
+    "way of the sword",
+    "剣の道",
+    "鬼武者ws",
+    "鬼武者wos",
+    "#鬼武者ws",
+    "#onimusha",
+    "musashi onimusha",
+)
+
+GUIDE_INTENT_KW = (
+    "攻略", "walkthrough", "guide", "ガイド", "ボス", "boss", "打法",
+    "配裝", "配装", "build", "trophy", "trophies", "achievement",
+    "白金", "獎盃", "奖杯", "奖盃", "トロフィー", "チャート",
+    "收集", "collectible", "collectibles", "tips", "how to", "howto",
+    "弱點", "弱点", "弱体", "図鑑", "入手", "序盤", "初心者", "beginner",
+    "攻略wiki", "handbook", "流程", "強化", "强化", "装備", "装备",
+    "武器", "weapon", "weapons", "撃破", "クリア", "任務", "任务",
+    "奇谭", "奇譚", "探索", "圖文", "图文", "怎麼打", "怎么打",
+    "御守", "鬼灯", "武具", "能力強化", "素材", "マップ", "エンディング",
+    "難易度", "一閃無傷", "受け流し", "化勁", "刷魂", "刷取", "周回",
+    "マニュアル", "manual", "謎解き", "報酬", "進め方", "進み方",
+    "location", "where to find", "platinum", "100%", "全收集", "全boss", "全ボス",
+    "頭目", "無傷", "推奨設定", "おすすめ能力", "おすすめ武器",
+    "通關", "通关", "撃破方法", "クリア手順",
+)
+
+GUIDE_BLOCK_DOMAIN_SUBSTR = (
+    "taobao.com", "tmall.com", "books.com.tw", "facebook.com",
+    "steamcommunity.com", "resetera.com",
+    "gq.com.tw", "gq.com",
+    "tw.news.yahoo.com", "news.yahoo.", "n.yam.com", "yam.com",
+    "chiebukuro", "gameclub.jp",
+    "1p2pstart", "176app.com",
+    "gfn.taiwanmobile", "taiwanmobile.com",
+    "techpowerup.com",
+    "ign.com", "gamespark.jp",
+    "neogaf.com", "famiboards.com",
+    "livedoor.com", "dengekionline.com", "appbank.net",
+    "capcom-games.com",
+    "nintendoworldreport.com", "lt3.tv", "analogstickgaming.com",
+    "vocus.cc", "wikipedia.org",
+)
+
+GUIDE_OTHER_GAMES = (
+    "定海", "燕雲十六聲", "燕云十六声",
+    "monster hunter", "魔物獵人", "魔物猎人", "モンスターハンター",
+    "洛克王國", "洛克王国",
+    "诛魔", "英雄沒有閃", "英雄没有闪",
+    "dawn of dreams", "warlords",
+    "onimusha 2:", "鬼武者Ⅱ", "鬼武者2", "鬼武者ii", "鬼武者 ii",
+    "samurai's destiny", "samurai’s destiny",
+)
+
+GUIDE_HUB_MARKERS = ("攻略专区", "攻略專區", "游戏专区", "遊戲專區")
+GUIDE_HUB_PATH_RE = re.compile(r"/z/[a-z0-9\-]+/?$", re.I)
+
+# 標題／URL 上的純評測、OT、發售、清單推薦、跑分（不看 snippet，DDGS 摘要常夾雜）
+GUIDE_EXCLUDE_NOISE = (
+    "|ot|", " |ot ", "| ot|", "review thread",
+    "announced", "coming 2026", "releases september", "planning to release",
+    "最值得關注", "一次看", "首日賣", "賣破",
+    "跑分", "硬體測試", "硬件测试", "benchmark",
+    "レビュー", " review", "review -", "- review", "評測",
+    "クリア後の正直な感想", "はどんなゲーム", "歴代作品まとめ",
+    "魅力に迫る", "バッサリ感を体感", "ショート動画",
+    "ローンチ", "発売！", "発売前",
+)
+
+
+def _ascii_ish(s: str) -> bool:
+    return all(ord(c) < 128 for c in s)
+
+
+def _contains(hay: str, hay_low: str, needle: str) -> bool:
+    if _ascii_ish(needle) or needle.startswith("#"):
+        return needle.lower() in hay_low
+    return needle in hay
+
+
+def is_relevant_guide(title, url, snippet=""):
+    """DDGS 攻略結果過濾：必須是鬼武者WS／劍之道且具攻略意圖，排除電商／新聞／OT／他作。"""
+    title = (title or "").strip()
+    url = (url or "").strip()
+    snippet = (snippet or "").strip()
+    if not title or not url:
+        return False
+
+    d = domain_of(url)
+    url_low = url.lower()
+    title_url = f"{title} {url}"
+    title_url_low = title_url.lower()
+    title_low = title.lower()
+
+    if any(b in d for b in GUIDE_BLOCK_DOMAIN_SUBSTR):
+        return False
+    if any(b in url_low for b in ("chiebukuro", "steam-account", "1p2pstart")):
+        return False
+
+    for og in GUIDE_OTHER_GAMES:
+        if _contains(title_url, title_url_low, og):
+            ws = any(
+                x in title
+                for x in ("劍之道", "剑之道", "剣の道", "鬼武者WS", "鬼武者ws", "鬼武者WOS")
+            ) or "way of the sword" in title_low
+            if not ws:
+                return False
+
+    if any(h in title for h in GUIDE_HUB_MARKERS):
+        return False
+    if GUIDE_HUB_PATH_RE.search(urlparse(url).path or ""):
+        return False
+
+    if not any(_contains(title_url, title_url_low, t) for t in GUIDE_GAME_TERMS):
+        return False
+
+    # 雜訊只看標題／URL（snippet 常被搜尋引擎塞相關連結）
+    noise_blob = f"{title}\n{url}"
+    noise_low = noise_blob.lower()
+    if any(_contains(noise_blob, noise_low, n) for n in GUIDE_EXCLUDE_NOISE):
+        return False
+    # 標題以純 Review 為主
+    if re.search(r"(?i)\breview\b", title) and not any(
+        _contains(title, title_low, k)
+        for k in ("guide", "walkthrough", "trophy", "boss", "tips", "攻略")
+    ):
+        return False
+
+    # 攻略意圖：標題為主；否則看 URL path 常見攻略段（不依賴 DDGS snippet，易夾雜）
+    if any(_contains(title, title_low, k) for k in GUIDE_INTENT_KW):
+        return True
+    path = (urlparse(url).path or "").lower()
+    if any(seg in path for seg in ("/guide", "/guides", "/walkthrough", "/trophy", "/boss", "handbook", "攻略")):
+        return True
+    return False
+
 
 def update_guides():
     pool = {}
+    purged = 0
     for lang in ("zh", "en", "ja"):
         for g in load_json(f"guides_{lang}.json", []):
+            if not is_relevant_guide(g.get("title", ""), g.get("url", ""), g.get("snippet", "")):
+                purged += 1
+                continue
             k = norm_url(g["url"])
             g["lang"] = detect_lang(g["title"] + " " + g.get("snippet", ""), g["url"])
             pool[k] = g
@@ -436,10 +581,12 @@ def update_guides():
                     title = (r.get("title") or "").strip()
                     if not url.startswith("http") or is_video_url(url):
                         continue
+                    body = (r.get("body") or "").strip()
+                    if not is_relevant_guide(title, url, body):
+                        continue
                     k = norm_url(url)
                     if k in pool:
                         continue
-                    body = (r.get("body") or "").strip()
                     item = {
                         "id": re.sub(r"[^a-f0-9]", "", __import__("hashlib").md5(k.encode()).hexdigest()),
                         "title": title,
@@ -460,7 +607,10 @@ def update_guides():
     for lang, items in buckets.items():
         save_json(f"guides_{lang}.json", items)
         set_meta(f"guides_{lang}")
-    log.info("guides: +%d -> zh=%d en=%d ja=%d", added, len(buckets["zh"]), len(buckets["en"]), len(buckets["ja"]))
+    log.info(
+        "guides: +%d purged=%d -> zh=%d en=%d ja=%d",
+        added, purged, len(buckets["zh"]), len(buckets["en"]), len(buckets["ja"]),
+    )
 
 
 def update_videos():
