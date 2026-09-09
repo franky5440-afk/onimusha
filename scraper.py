@@ -459,6 +459,7 @@ GUIDE_BLOCK_DOMAIN_SUBSTR = (
     "capcom-games.com",
     "nintendoworldreport.com", "lt3.tv", "analogstickgaming.com",
     "vocus.cc", "wikipedia.org",
+    "g2a.com", "msn.com", "msn.cn",
 )
 
 GUIDE_OTHER_GAMES = (
@@ -513,7 +514,7 @@ def is_relevant_guide(title, url, snippet=""):
 
     if any(b in d for b in GUIDE_BLOCK_DOMAIN_SUBSTR):
         return False
-    if any(b in url_low for b in ("chiebukuro", "steam-account", "1p2pstart")):
+    if any(b in url_low for b in ("chiebukuro", "steam-account", "1p2pstart", "ali213.net/news")):
         return False
 
     for og in GUIDE_OTHER_GAMES:
