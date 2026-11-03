@@ -1728,5 +1728,15 @@
   "category": "weapon",
   "lang": "zh",
   "found_date": "2026-10-31"
+ },
+ {
+  "id": "769b8202194418207b12a2a08cc9055a",
+  "title": "鬼武者：剑之道攻略总汇 - Vaagame",
+  "url": "https://vaagame.com/zh-CN/guides/onimusha-way-of-the-sword-hub",
+  "snippet": "本站鬼武者：剑之道攻略总汇：8 篇按分类分组，含新手入门与进阶内容。",
+  "source": "vaagame.com",
+  "category": "beginner",
+  "lang": "zh",
+  "found_date": "2026-11-03"
  }
 ]
